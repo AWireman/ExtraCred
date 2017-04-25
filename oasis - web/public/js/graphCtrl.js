@@ -22,7 +22,7 @@ graphCtrl.controller('graphCtrl', function($scope, $location, $window, loginServ
       });
 
       $scope.loc = {};
-      $scope.years = [2016];
+      $scope.years = [2017];
 
       $scope.makeGraph = function() {
         reportService.getQualityReports().then((response)=>{
@@ -45,8 +45,8 @@ graphCtrl.controller('graphCtrl', function($scope, $location, $window, loginServ
             }
             var dataset2 = new vis.DataSet(itemList);
             var option = {
-                start: '2016-10-01',
-                end: '2016-12-30'
+                start: '2017-01-01',
+                end: '2017-12-30'
             }
 
             var Graph2d = new vis.Graph2d(container, dataset2, option)
