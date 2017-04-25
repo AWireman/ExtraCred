@@ -10,6 +10,17 @@ var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var app             = express();
 
+global.users = []
+var defaultUser = {
+  firstname: "a",
+  lastname: "a",
+  username: "a",
+  password: "a",
+  email: "a",
+  accountType: "a"
+}
+global.users.push(defaultUser)
+
 // Express Configuration
 // -----------------------------------------------------
 // Sets the connection to MongoDB
