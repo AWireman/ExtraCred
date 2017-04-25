@@ -1,0 +1,91 @@
+<!doctype html>
+<!-- Declares meanMapApp as the starting Angular module -->
+<html class="no-js" ng-app="meanMapApp">
+<head>
+    <meta charset="utf-8">
+    <title>Oasis</title>
+    <meta name="description" content="An example demonstrating Google Map integration with MEAN Apps">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="style.css"/>
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrn605l7RPadiwdzsOlRw9O28lxfYBJ6s"></script>
+
+    <!-- Modernizr -->
+    <script src="../bower_components/modernizr/bin/modernizr"></script>
+
+    <!-- JS Source -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
+
+    <!-- Angular Files -->
+    <script src="js/app.js"></script>
+    <script src="js/gservice.js"></script>
+    <script src="js/addCtrl.js"></script>
+    <script src="js/queryCtrl.js"></script>
+    <script src="js/headerCtrl.js"></script>
+    <script src="js/loginCtrl.js"></script>
+    <script src="js/loginService.js"></script>
+    <script src="js/editCtrl.js"></script>
+    <script src="js/registerCtrl.js"></script>
+    <script src="js/viewCtrl.js"></script>
+    <script src="js/submitCtrl.js"></script>
+    <script src="js/reportService.js"></script>
+    <script src="js/graphCtrl.js"></script>
+    <script src="../bower_components/vis/dist/vis.js"></script>
+    <link href="../bower_components/vis/dist/vis.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="container">
+    <!-- Header Menu. Note use of headerCtrl -->
+    <div class="header" ng-controller="headerCtrl">
+
+        <!-- Header items are made active upon selection -->
+        <ul class="nav nav-pills pull-right">
+            <li ng-class="{ active: isActive('/login')}" ng-if="!show()" ><a href="/#/login">Log In</a></li>
+            <li ng-class="{ active: isActive('/register')}" ng-if="!show()" ><a href="/#/register">Register</a></li>
+            <li ng-class="{ active: isActive('/login')}" ng-if="show()" ng-click="logOut()"><a href="/#/login">Log Out</a></li>
+            <li ng-class="{ active: isActive('/edit')}" ng-if="show()"><a href="/#/edit">Edit Profile</a></li>
+            <li ng-class="{ active: isActive('/submit')}" ng-if="show()"><a href="/#/submit">Submit Reports</a></li>
+            <li ng-class="{ active: isActive('/view')}" ng-if="show()"><a href="/#/view">View Reports</a></li>
+            <li ng-class="{ active: isActive('/graph')}" ng-if="isManager()"><a href="/#/graph">View Graphs</a></li>
+
+        </ul>
+
+        <!-- Header Title -->
+        <h3 class="text-muted">Oasis</h3>
+    </div>
+
+    <!-- Map and Side Panel -->
+    <div class="row content">
+
+        <!-- Google Map -->
+        <div class="col-md-7">
+            <div id="map"></div>
+        </div>
+
+        <!-- Side Panel (Controlled by ng-view) -->
+        <div ng-view></div>
+
+    </div>
+    <hr/>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p class="text-center"><span class="glyphicon glyphicon-check"></span> Credits to Ahmed Haque from Scotch IO</p>
+    </div>
+
+</div>
+
+</body>
+</html>
