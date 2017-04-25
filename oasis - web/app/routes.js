@@ -187,10 +187,10 @@ module.exports = function(app) {
     // Provides method for saving new users in the db
     app.post('/users', function(req, res){
 
+        """
         // Creates a new User based on the Mongoose schema and the post bo.dy
-        var newuser = new User(req.body);
-
-        // New User is saved in the db.
+        //var newuser = new User(req.body);
+                // New User is saved in the db.
         newuser.save(function(err){
             if(err)
                 res.send(err);
@@ -198,6 +198,28 @@ module.exports = function(app) {
                 // If no errors are found, it responds with a JSON of the new user
                 res.json(req.body);
         });
+        """
+
+        var newuser = {
+                username: req.body.username,
+                gender: req.body.gender,
+                age: req.body.age,
+                favlang: req.body.favlang,
+                location: req.body.location, // [Long, Lat]
+                htmlverified: req.body.htmlverified,
+                created_at: req.body.created_at,
+                updated_at: req.body.updated_at
+        }
+
+        if (global.users != null) {
+            //if (newuser in global.users) {
+            //}
+            global.users.push(newuser);
+        } else {
+            global.users = [newuser];
+        }
+
+
     });
 
     // Retrieves JSON records for all users who meet a certain set of query conditions
