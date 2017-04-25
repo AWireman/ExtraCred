@@ -28,20 +28,33 @@ module.exports = function(app) {
 
         });
         */
+
+        var found = false;
         console.log("app.get(/getUser)");
         if (global.users != null) {
             for (var i = 0; i < global.users.length; i++) {
                 var cur = global.users[i];
-                if (cur[username] == req.query.username
-                        && cur[password] == req.query.password) {
-                    res.json(cur);
-                    return;
+                console.log(cur);
+                if (cur["username"] === req.query.username
+                        && cur["password"] === req.query.password) {
+                    var userRes = [cur["firstname"],
+                                    cur["lastname"], 
+                                    cur["username"], 
+                                    cur["email"], 
+                                    cur["password"], 
+                                    cur["accountType"]]
+                    res.json(userRes);
+                    console.log("Get user - success");
+                    found = true;
                 }
             }
         }
-        console.log("No user found");
 
-        res.json(null);
+        if (!found) {
+            console.log("No user found");
+            res.json(null);
+        }
+
     });
 
     app.get("/checkUser", function(req, res) {
@@ -55,7 +68,22 @@ module.exports = function(app) {
             res.json(response);
         });
         */
+
         console.log("app.get(/checkUser)");
+
+        if (global.users != null) {
+            for (var i = 0; i < global.users.length; i++) {
+                var cur = global.users[i];
+                console.log(cur);
+                if (cur["username"] === req.query.username) {
+                    res.json(cur);
+                    console.log("Check user - success");
+                    return;
+                }
+            }
+        }
+        console.log("No user found");
+
         res.json("");
     });
 
@@ -86,12 +114,12 @@ module.exports = function(app) {
         var n_accountType = req.body.accountType;
 
         var newUser = {
-             firstname: "n_firstName",
-             lastname: "n_lastName",
-             username: "n_username",
-             password: "n_password",
-             email: "n_email",
-             accountType: "n_accountType"
+             firstname: n_firstName,
+             lastname: n_lastName,
+             username: n_username,
+             password: n_password,
+             email: n_email,
+             accountType: n_accountType
         }
 
         if (global.users == null) {
@@ -102,7 +130,7 @@ module.exports = function(app) {
 
         console.log("app.put(/addUser)");
 
-        res.json(true);
+        res.json();
 
     });
 

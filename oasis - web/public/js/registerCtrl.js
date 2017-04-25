@@ -15,6 +15,9 @@ registerCtrl.controller('registerCtrl', function($scope, $http, $rootScope, $loc
                 alert("That username already exists");
                 return false;
             } else {
+                console.log("afterwards");
+
+
                 var data = {
                     firstName: $scope.formData.firstName,
                     lastName: $scope.formData.lastName,
@@ -24,11 +27,24 @@ registerCtrl.controller('registerCtrl', function($scope, $http, $rootScope, $loc
                     accountType: $scope.formData.accountType
                 }
 
+                
                 $http.put('/addUser',data).success(()=> {
                     $window.location.href = '/#/login';
                     console.log('it worked');
+                    alert("Added user");
                 });
+                
+                console.log("afterwards");
+                /*
+                $http.put('/addUser',data).then(()=>{
+                    $window.location.href = '/#/login';
+                    console.log('it worked');     
+                }, () => {
+                    alert("Failure to add user");
+                    console.log("error in promise");
+                });*/
             }
         });
+
     }
 });

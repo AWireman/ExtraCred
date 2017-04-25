@@ -23,10 +23,12 @@ angular.module('loginService', [])
 
         service.verifyLogin = function(user, pass) {
             console.log("in service test");
+            alert("in service test");
             var p = new Promise((resolve, reject)=> {
                 $http.get('/getUser?username='+user+"&password="+pass).success((res)=> {
                     //console.log(res);
                     if (res.length > 0) {
+                        console.log("reslength > 0");
                         service.user = res[0];
                         console.log(service.user);
                         resolve();
