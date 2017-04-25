@@ -10,16 +10,27 @@ var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var app             = express();
 
-global.users = []
-var defaultUser = {
+global.users = [];
+var defaultUser_a = {
   firstname: "a",
   lastname: "a",
   username: "a",
   password: "a",
   email: "a",
-  accountType: "a"
-}
-global.users.push(defaultUser)
+  accountType: "User"
+};
+
+var defaultUser_d = {
+  firstname: "d",
+  lastname: "d",
+  username: "d",
+  password: "d",
+  email: "d",
+  accountType: "Administrator"
+};
+
+global.users.push(defaultUser_a);
+global.users.push(defaultUser_d);
 
 // Express Configuration
 // -----------------------------------------------------

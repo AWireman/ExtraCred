@@ -184,7 +184,7 @@ module.exports = function(app) {
 
         console.log("app.put(/editUser)");
 
-        res.json();
+        res.json(newUser);
     });
 
 
@@ -205,7 +205,8 @@ module.exports = function(app) {
         if (global.sourceReports != null) {
             var returnList = []
             for (var i = 0; i < global.sourceReports.length; i++) {
-                var cur = global.reports[i];
+                //var cur = global.sourceReports[i];
+                /*
                 var curList = [cur["date"],
                                 cur["reportNumber"], 
                                 cur["username"], 
@@ -214,10 +215,13 @@ module.exports = function(app) {
                                 cur["type"],
                                 cur["condition"]];
                 returnList.push(curList);
+                */
+                returnList.push(global.sourceReports[i]);
             }
             res.json(returnList);
         } else {
-            res.json(null);
+            global.sourceReports = [];
+            res.json(global.sourceReports);
         }
 
     });
@@ -235,7 +239,7 @@ module.exports = function(app) {
         if (global.sourceReports != null) {
             res.json(global.sourceReports.length);
         } else {
-            res.json(0);
+            res.json("1");
         }
 
     });
@@ -267,6 +271,7 @@ module.exports = function(app) {
         }
 
         var newSourceReport = {
+            date: req.body.date,
             reportNumber: req.body.reportNumber,
             username: req.body.username,
             longitude: req.body.longitude,
@@ -277,7 +282,9 @@ module.exports = function(app) {
 
         global.sourceReports.push(newSourceReport);
 
-        res.json();
+        //console.log(global.sourceReports);
+
+        res.json(newSourceReport);
 
     });
 
@@ -298,7 +305,9 @@ module.exports = function(app) {
         if (global.qualityReports != null) {
             var returnList = []
             for (var i = 0; i < global.qualityReports.length; i++) {
+                /*
                 var cur = global.reports[i];
+                console.log(cur);
                 var curList = [cur["date"],
                                 cur["reportNumber"], 
                                 cur["username"], 
@@ -307,10 +316,13 @@ module.exports = function(app) {
                                 cur["type"],
                                 cur["condition"]];
                 returnList.push(curList);
+                */
+                returnList.push(global.qualityReports[i]);
             }
             res.json(returnList);
         } else {
-            res.json(null);
+            global.qualityReports = [];
+            res.json(global.qualityReports);
         }
     });
 
@@ -327,7 +339,7 @@ module.exports = function(app) {
         if (global.qualityReports != null) {
             res.json(global.qualityReports.length);
         } else {
-            res.json(0);
+            res.json(1);
         }
     });
 
@@ -358,12 +370,14 @@ module.exports = function(app) {
         }
 
         var newQualityReport = {
+            date: req.body.date,
             reportNumber: req.body.reportNumber,
             username: req.body.username,
             longitude: req.body.longitude,
             latitude: req.body.latitude,
-            type: req.body.type,
-            condition: req.body.condition
+            condition: req.body.condition,
+            virus: req.body.virus,
+            chem: req.body.chem
         }
 
         global.qualityReports.push(newQualityReport);

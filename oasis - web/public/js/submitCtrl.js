@@ -25,7 +25,7 @@ submitCtrl.controller('submitCtrl', function($scope, $http, $rootScope, $locatio
         var currDate = new Date()
         if ($scope.opt == "source") {
             $http.get("/sourceReportCount").success(function(response) {
-                num = response[0].rowcount + 1;
+                num = response;
 
                 var data = {
                     date: currDate,
@@ -43,7 +43,8 @@ submitCtrl.controller('submitCtrl', function($scope, $http, $rootScope, $locatio
             });
         } else if ($scope.opt == "quality") {
             $http.get("/qualityReportCount").success(function(response) {
-                num = response[0].rowcount + 1;
+                num = response;
+                
                 var data = {
                     date: currDate,
                     reportNumber: num,
