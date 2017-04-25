@@ -10,12 +10,11 @@ loginCtrl.controller('loginCtrl', function($scope, $http, $rootScope, $location,
         var pass = $scope.formData.password;
         console.log("loginCtrl user: ");
         console.log("loginCtrl pass: " + pass);
-        alert("In login");
 
         loginService.verifyLogin(user, pass).then(()=>{
             console.log("inside promise");
 
-            $window.location.href = '/#/edit';
+            $window.location.href = '/#/view';
             console.log($location.path());
             gservice.refresh();
         }, () => {
