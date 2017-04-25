@@ -37,14 +37,19 @@ submitCtrl.controller('submitCtrl', function($scope, $http, $rootScope, $locatio
                     condition: $scope.formData.sourceCondition
                 }
                 $http.put('/addSourceReport',data).success(()=> {
+                    //gservice.refresh(data["latitude"], data["longitude"], global.sourceReports);
+                    //gservice.refresh(global.sourceReports[global.sourceReports.length - 1]["latitude"],
+                    //                                        global.sourceReports[global.sourceReports.length - 1]["longitude"],
+                    //                                        false);
                     $window.location.href = '/#/view';
                     console.log('it worked');
+                    gservice.refresh(0, 0, true);
                 });
             });
         } else if ($scope.opt == "quality") {
             $http.get("/qualityReportCount").success(function(response) {
                 num = response;
-                
+
                 var data = {
                     date: currDate,
                     reportNumber: num,
@@ -58,6 +63,7 @@ submitCtrl.controller('submitCtrl', function($scope, $http, $rootScope, $locatio
                 $http.put('/addQualityReport',data).success(()=> {
                     $window.location.href = '/#/view';
                     console.log('it worked');
+                    gservice.refresh(0, 0, true);
                 });
             });
         }

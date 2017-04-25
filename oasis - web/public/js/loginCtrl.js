@@ -14,9 +14,9 @@ loginCtrl.controller('loginCtrl', function($scope, $http, $rootScope, $location,
         loginService.verifyLogin(user, pass).then(()=>{
             console.log("inside promise");
 
-            $window.location.href = '/#/view';
+            $window.location.href = '/#/submit';
             console.log($location.path());
-            gservice.refresh();
+            //gservice.initialize(33.753746, -84.386330, false);
         }, () => {
             alert("Invalid username or password");
             console.log("error in promise");

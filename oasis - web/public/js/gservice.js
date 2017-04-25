@@ -36,23 +36,58 @@ angular.module('gservice', ['reportService'])
 
 
         // Refresh the Map with new data. Takes three parameters (lat, long, and filtering results)
-        googleMapService.refresh = function(latitude, longitude, filteredResults){
+        googleMapService.refresh = function(latitude, longitude, filteredResults){//, filteredResults){
             console.log("in refresh");
+            //alert("Map refresh");
+
             // Clears the holding array of locations
             locations = [];
 
             // Set the selected lat and long equal to the ones provided on the refresh() call
-            selectedLat = latitude;
-            selectedLong = longitude;
+            
+            if (latitude === 0 && longitude === 0) {
+              selectedLat = 33.753746;
+              selectedLong = -84.386330;
+            } else {
+                selectedLat = latitude;
+                selectedLong = longitude;
+            }
+/*
+            if (global.sourceReports == null) {
+                alert("No source reports yet");
+                initialize(selectedLat, selectedLong, false);
+            } else {
+                alert("Source reports exist");
+                locations = convertToMapPoints(global.sourceReports);
+                //locations += convertToMapPoints(global.qualityReports);
+                initialize(selectedLat, selectedLong, false);
+            }*/
+
+            //selectedLat = latitude;
+            //selectedLong = longitude;
+
 
             // If filtered results are provided in the refresh() call...
+            
             if (filteredResults){
 
+                //alert("We got filtered results!");
+
+                //locations = convertToMapPoints(global.sourceReports);
+                //initialize(selectedLat, selectedLong, false);
+                
+                reportService.getReports().then((response)=> {
+                    locations = convertToMapPoints(response.data);
+                    console.log(locations);
+                    initialize(latitude,longitude, false);
+                });
+                /*
                 // Then convert the filtered results into map points.
                 locations = convertToMapPoints(filteredResults);
 
                 // Then, initialize the map -- noting that a filter was used (to mark icons yellow)
                 initialize(latitude, longitude, true);
+                */
             }
 
             // If no filter is provided in the refresh() call...
@@ -73,9 +108,12 @@ angular.module('gservice', ['reportService'])
                     console.log(locations);
                     initialize(latitude,longitude, false);
                 });
-            }  //commented out for testing purposes
 
-            initialize(latitude, longitude, false);
+                initialize(latitude, longitude, false);
+
+            }  //commented out for testing purposes
+            
+
         };
 
         // Private Inner Functions
@@ -86,30 +124,30 @@ angular.module('gservice', ['reportService'])
 
             // Clear the locations holder
             var locations = [];
-
+            //alert(response);
             // Loop through all of the JSON entries provided in the response
             for(var i= 0; i < response.length; i++) {
                 var report = response[i];
 
                 // Create popup windows for each record
-                var  contentString = '<p><b>Username</b>: ' + report.username + '<br><b>Condition</b>: ' + report.cond + '<br>' +
-                    '<b>Date</b>: ' + report.date + ((report.type)? ('<br><b>Type</b>: ' + report.type ) : "") +
-                    ((report.chem)? ('<br><b>Chemical PPM</b>:' + report.chem) : "") +
-                    ((report.virus)? ('<br><b>Virus PPM</b>:' + report.virus) : "")  +'</p>';
+                var  contentString = '<p><b>Username</b>: ' + report["username"] + '<br><b>Condition</b>: ' + report["condition"] + '<br>' +
+                    '<b>Date</b>: ' + report["date"] + ((report["type"])? ('<br><b>Type</b>: ' + report["type"] ) : "") +
+                    ((report["chem"])? ('<br><b>Chemical PPM</b>:' + report["chem"]) : "") +
+                    ((report["virus"])? ('<br><b>Virus PPM</b>:' + report["virus"]) : "")  +'</p>';
 
                 // Converts each of the JSON records into Google Maps Location format (Note Lat, Lng format).
                 locations.push(new Location(
-                    new google.maps.LatLng(report.latitude, report.longitude),
+                    new google.maps.LatLng(report["latitude"], report["longitude"]),
                     new google.maps.InfoWindow({
                         content: contentString,
                         maxWidth: 320
                     }),
-                    report.username,
-                    report.date,
-                    report.type,
-                    report.cond,
-                    report.virus,
-                    report.chem
+                    report["username"],
+                    report["date"],
+                    report["type"],
+                    report["cond"],
+                    report["virus"],
+                    report["chem"]
                 ));
             }
             // location is now an array populated with records in Google Maps format
@@ -133,11 +171,12 @@ angular.module('gservice', ['reportService'])
             console.log("in initialize");
 
             // Uses the selected lat, long as starting point
-            var myLatLng = {lat: 34, lng: -98};
+            var myLatLng = {lat: latitude, lng: longitude};
             // If map has not been created...
             if (!map){
 
                 // Create a new map and place in the index.html page
+                //alert("creating map");
                 console.log("creating map");
                 var map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 3,
@@ -155,6 +194,7 @@ angular.module('gservice', ['reportService'])
 
             // Loop through each location in the array and place a marker
             locations.forEach(function(n, i){
+                //alert("adding new marker");
                var marker = new google.maps.Marker({
                    position: n.latlon,
                    map: map,

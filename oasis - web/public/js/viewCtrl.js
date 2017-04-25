@@ -17,6 +17,11 @@ viewCtrl.controller('viewCtrl', function($scope, $http, $rootScope, $location, $
         return false;
     }
 
+    //alert("in viewCtrl");
+    //gservice.refresh(33.753746, -84.386330, global.sourceReports);
+    //gservice.refresh(global.sourceReports[global.sourceReports.length - 1]["latitude"],
+    //                                                       global.sourceReports[global.sourceReports.length - 1]["longitude"],
+    //                                                       global.sourceReports);
     $http.get("/sourceReportList").then(function(response) {
         $scope.sourceReports = response.data;
     });

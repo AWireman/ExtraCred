@@ -239,7 +239,7 @@ module.exports = function(app) {
         if (global.sourceReports != null) {
             res.json(global.sourceReports.length);
         } else {
-            res.json("1");
+            res.json("0");
         }
 
     });
@@ -339,7 +339,7 @@ module.exports = function(app) {
         if (global.qualityReports != null) {
             res.json(global.qualityReports.length);
         } else {
-            res.json(1);
+            res.json("0");
         }
     });
 
