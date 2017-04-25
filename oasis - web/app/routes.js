@@ -5,14 +5,18 @@ module.exports = function(app) {
     User Table Endpoints
     --------------------------------------------------*/
     app.get("/userList", function(req, res) {
+        /*
         con.query('SELECT * FROM userInfo',function(err,rows) {
         if(err)
            console.log("Error Selecting : %s ",err );
             res.json(rows);
          });
+        */
+        console.log("app.get(/userList)");
     });
 
     app.get("/getUser", function(req, res) {
+        /*
         var username = req.query.username;
         var password = req.query.password;
         var obj = { status: false};
@@ -23,9 +27,25 @@ module.exports = function(app) {
             res.json(response);
 
         });
+        */
+        console.log("app.get(/getUser)");
+        if (global.users != null) {
+            for (var i = 0; i < global.users.length; i++) {
+                var cur = global.users[i];
+                if (cur[username] == req.query.username
+                        && cur[password] == req.query.password) {
+                    res.json(cur);
+                    return;
+                }
+            }
+        }
+        console.log("No user found");
+
+        res.json(null);
     });
 
     app.get("/checkUser", function(req, res) {
+        /*
         var username = req.query.username;
         var obj = { status: false};
         con.query("SELECT * FROM userInfo WHERE username = ?",
@@ -34,9 +54,13 @@ module.exports = function(app) {
                 res.json(err);
             res.json(response);
         });
+        */
+        console.log("app.get(/checkUser)");
+        res.json("");
     });
 
     app.put("/addUser", function(req, res) {
+        /*
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
         var username = req.body.username;
@@ -52,6 +76,34 @@ module.exports = function(app) {
             }
             res.json(resp);
          });
+        */
+
+        var n_firstName = req.body.firstName;
+        var n_lastName = req.body.lastName;
+        var n_username = req.body.username;
+        var n_password = req.body.password;
+        var n_email = req.body.email;
+        var n_accountType = req.body.accountType;
+
+        var newUser = {
+             firstname: "n_firstName",
+             lastname: "n_lastName",
+             username: "n_username",
+             password: "n_password",
+             email: "n_email",
+             accountType: "n_accountType"
+        }
+
+        if (global.users == null) {
+            global.users = [];
+        }
+
+        global.users.push(newUser);
+
+        console.log("app.put(/addUser)");
+
+        res.json(true);
+
     });
 
     app.put("/editUser", function(req, res) {
@@ -77,6 +129,8 @@ module.exports = function(app) {
                     console.log("Success");
                 }
         });
+        console.log("app.get(/userList)");
+
     });
 
 
@@ -187,7 +241,7 @@ module.exports = function(app) {
     // Provides method for saving new users in the db
     app.post('/users', function(req, res){
 
-        """
+        /*
         // Creates a new User based on the Mongoose schema and the post bo.dy
         //var newuser = new User(req.body);
                 // New User is saved in the db.
@@ -198,7 +252,7 @@ module.exports = function(app) {
                 // If no errors are found, it responds with a JSON of the new user
                 res.json(req.body);
         });
-        """
+        */
 
         var newuser = {
                 username: req.body.username,
