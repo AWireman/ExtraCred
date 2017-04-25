@@ -135,6 +135,7 @@ module.exports = function(app) {
     });
 
     app.put("/editUser", function(req, res) {
+        /*
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
         var username = req.body.username;
@@ -158,31 +159,89 @@ module.exports = function(app) {
                 }
         });
         console.log("app.get(/userList)");
+        */
+        var n_firstName = req.body.firstName;
+        var n_lastName = req.body.lastName;
+        var n_username = req.body.username;
+        var n_password = req.body.password;
+        var n_email = req.body.email;
+        var n_accountType = req.body.accountType;
 
+        var newUser = {
+             firstname: n_firstName,
+             lastname: n_lastName,
+             username: n_username,
+             password: n_password,
+             email: n_email,
+             accountType: n_accountType
+        }
+
+        if (global.users == null) {
+            global.users = [];
+        }
+
+        global.users.push(newUser);
+
+        console.log("app.put(/editUser)");
+
+        res.json();
     });
-
 
 
     /* ------------------------------------------------
     Source Report Table Endpoints
     --------------------------------------------------*/
     app.get("/sourceReportList", function(req, res) {
+        /*
         con.query('SELECT * FROM sourceReportInfo',function(err,rows) {
         if(err)
            console.log("Error Selecting : %s ",err );
             res.json(rows);
          });
+        */
+        console.log("app.get(/sourceReportList)");
+
+
+        if (global.sourceReports != null) {
+            var returnList = []
+            for (var i = 0; i < global.sourceReports.length; i++) {
+                var cur = global.reports[i];
+                var curList = [cur["date"],
+                                cur["reportNumber"], 
+                                cur["username"], 
+                                cur["longitude"], 
+                                cur["latitude"], 
+                                cur["type"],
+                                cur["condition"]];
+                returnList.push(curList);
+            }
+            res.json(returnList);
+        } else {
+            res.json(null);
+        }
+
     });
 
     app.get("/sourceReportCount", function(req, res) {
+        /*
         con.query('SELECT COUNT(*) as rowcount FROM sourceReportInfo',function(err,rows) {
         if(err)
            console.log("Error Selecting : %s ",err );
             res.json(rows);
          });
+        */
+        console.log("app.get(/sourceReportCount)");
+
+        if (global.sourceReports != null) {
+            res.json(global.sourceReports.length);
+        } else {
+            res.json(0);
+        }
+
     });
 
     app.put("/addSourceReport", function(req, res) {
+        /*
         var date = req.body.date;
         var reportNumber = req.body.reportNumber;
         var username = req.body.username;
@@ -200,6 +259,26 @@ module.exports = function(app) {
             console.log(resp);
             res.json(resp);
          });
+        */
+        console.log("app.get(/addSourceReport)");
+
+        if (global.sourceReports == null) {
+            global.sourceReports = [];
+        }
+
+        var newSourceReport = {
+            reportNumber: req.body.reportNumber,
+            username: req.body.username,
+            longitude: req.body.longitude,
+            latitude: req.body.latitude,
+            type: req.body.type,
+            condition: req.body.condition
+        }
+
+        global.sourceReports.push(newSourceReport);
+
+        res.json();
+
     });
 
 
@@ -207,22 +286,53 @@ module.exports = function(app) {
     Quality Table Endpoints
     --------------------------------------------------*/
     app.get("/qualityReportList", function(req, res) {
+        /*
         con.query('SELECT * FROM qualityReportInfo',function(err,rows) {
         if(err)
            console.log("Error Selecting : %s ",err );
             res.json(rows);
          });
+        */
+        console.log("app.get(/qualityReportList)");
+
+        if (global.qualityReports != null) {
+            var returnList = []
+            for (var i = 0; i < global.qualityReports.length; i++) {
+                var cur = global.reports[i];
+                var curList = [cur["date"],
+                                cur["reportNumber"], 
+                                cur["username"], 
+                                cur["longitude"], 
+                                cur["latitude"], 
+                                cur["type"],
+                                cur["condition"]];
+                returnList.push(curList);
+            }
+            res.json(returnList);
+        } else {
+            res.json(null);
+        }
     });
 
     app.get("/qualityReportCount", function(req, res) {
+        /*
         con.query('SELECT COUNT(*) as rowcount FROM qualityReportInfo',function(err,rows) {
         if(err)
            console.log("Error Selecting : %s ",err );
             res.json(rows);
          });
+        */
+        console.log("app.get(/qualityReportCount)");
+
+        if (global.qualityReports != null) {
+            res.json(global.qualityReports.length);
+        } else {
+            res.json(0);
+        }
     });
 
     app.put("/addQualityReport", function(req, res) {
+        /*
         var date = req.body.date;
         var reportNumber = req.body.reportNumber;
         var username = req.body.username;
@@ -240,6 +350,25 @@ module.exports = function(app) {
             }
             res.json(resp);
          });
+        */
+        console.log("app.get(/addQualityReport)");
+
+        if (global.qualityReports == null) {
+            global.qualityReports = [];
+        }
+
+        var newQualityReport = {
+            reportNumber: req.body.reportNumber,
+            username: req.body.username,
+            longitude: req.body.longitude,
+            latitude: req.body.latitude,
+            type: req.body.type,
+            condition: req.body.condition
+        }
+
+        global.qualityReports.push(newQualityReport);
+
+        res.json();
     });
 
 
